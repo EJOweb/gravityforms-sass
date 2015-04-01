@@ -1,12 +1,17 @@
-/***********************
- * Gravity Forms
- ***********************/
+/**
+ * Gravity Forms structure sass
+ * Version: 0.8
+ **
 
 // Variables
-$asterix: #790000 !default;
+$required: #790000 !default;
 $error: #790000 !default;
 $confirmation: #007900 !default;
-$label-weight: normal !default;
+
+$ui-font-color: #333 !default;
+$ui-border-color: #DDD !default;
+$ui-background-color: #EFEFEF !default;
+
 
 /* Reset */
 .gform_wrapper {
@@ -21,32 +26,53 @@ $label-weight: normal !default;
 
 /* Structure */
 .gform_wrapper {
-	margin-bottom: 1rem;
 
 	.gform_heading {}
 
-	.gform_body { 
-		margin-bottom: 1rem;
-	}
+	.gform_body {}
 
 	.gform_footer {
 		@include clearfix;
-		img { margin-left: 10px; }
+		img { margin-left: 0.5rem; }
+	}
+
+	.ggroup {
+		@include clearfix;		
+
+		.gsection_title {}
+	}
+
+	.gsection_title {}
+
+	.gcolumn {
+		&:first-child {
+			@extend .gf_left_half;
+		}
+		&:last-child {
+			@extend .gf_right_half;
+		}
+
+		.gf_left_half,
+		.gf_right_half {
+			clear: none;
+			float: none;
+			padding-right: 0;
+			padding-left: 0;
+			width: auto;
+		}
 	}
 
 	.gfield {
-		margin-bottom: 1rem;
+		@include clearfix;
 	}
 
-	.gfield_label {
-		font-weight: $label-weight;
-	}
+	.gfield_label {}
 
-	input,
+	input[type="text"],
+	input[type="password"],
+	input[type="search"],	
 	select,
-	textarea {
-		margin-bottom: 0;
-	}
+	textarea {}
 
 	// Input sizes
 	.small { width: 23%; }
@@ -56,31 +82,22 @@ $label-weight: normal !default;
 	.textarea { width: 100%; }
 
 	ul.gfield_radio,
-	ul.gfield_checkbox {
-		padding: ($base-spacing / 4) 0 0;
-
+	ul.gfield_checkbox {		
 		li {
-			margin-bottom: ($base-spacing / 4);
+			&:last-child {}
 		}
 
-		label {
-			font-weight: normal;
-		}
+		label {}
 
-		input:checked + label {
-			font-weight: bold;
-		}
+		input:checked + label {}
 	}
-
 
 	.left_label {
 		.gfield {
 			@include clearfix;
-			margin-bottom: 1rem;
 		}
 
 		.gfield_label {
-			// float: left;
 			width: 30%;
 			margin-right: 3%;
 		}
@@ -96,8 +113,8 @@ $label-weight: normal !default;
 	/* Halves & inlines */
 	.gfield {
 		clear: both;
-
-		&.gf_left_half,
+	}
+		.gf_left_half,
 		.ginput_left {
 			clear: left;
 			float: left;
@@ -105,7 +122,7 @@ $label-weight: normal !default;
 			width: 50%;
 		}
 
-		&.gf_right_half,
+		.gf_right_half,
 		.ginput_right {
 			clear: right;
 			float: right;
@@ -113,44 +130,30 @@ $label-weight: normal !default;
 			width: 50%;
 		}
 
-		&.gf_left_half,
-		&.gf_right_half {
+		.gf_left_half,
+		.gf_right_half {
 			.medium,
 			.large {
 				width: 100%;
 			}
 		}
 
-		&.gf_list_inline {			
-			ul.gfield_radio li,
-			ul.gfield_checkbox li {
-				display: inline-block;
-				margin-right: $half-spacing;
+		.gf_list_inline {
+			ul.gfield_radio,
+			ul.gfield_checkbox {
+				li {
+					display: inline-block;
+					margin-right: 0.75rem;
 
-				input,
-				label {
-					display: inline;
+					&:last-child {}
+
+					input,
+					label {
+						display: inline;
+					}
 				}
 			}
 		}
-
-		&.gsection {
-			clear: both;
-			// padding: 16px 0 2px;
-			// border-bottom: 3px solid $ui-light;
-			// margin-bottom: 14px;
-
-			.gsection_title {
-				margin-bottom: 0;
-				// font-size: em(20px);
-				// text-transform: uppercase;
-			}
-
-			&:first-child .gsection_title { 
-				// margin-top: 0;
-			}
-		}
-	}
 }
 
 /* Sidebar */
@@ -166,9 +169,9 @@ $label-weight: normal !default;
 /* Gravity form specifics */
 .gform_wrapper {
 	.validation_error {
-		border: 1px solid $ui-medium;
-		background-color: $ui-light;
-		color: $ui-dark;
+		border: 1px solid $ui-border-color;
+		background-color: $ui-background-color;
+		color: $ui-font-color;
 		font-style: italic;
 	}
 
@@ -178,10 +181,8 @@ $label-weight: normal !default;
 		color: $confirmation;
 	}
 
-	.gfield {}
-
 	span.gfield_required {
-		color: $asterix;
+		color: $required;
 		margin-left: 4px;
 	}
 
@@ -207,5 +208,9 @@ $label-weight: normal !default;
 		display: none !important;
 		position: absolute !important;
 		left: -9000px;
+	}
+
+	.gform_hidden {
+		display: none;
 	}
 }
