@@ -1,6 +1,6 @@
 /**
  * Gravity Forms structure sass
- * Version: 0.8
+ * Version: 0.9
  **/
 
 // Variables
@@ -12,11 +12,15 @@ $ui-font-color: #333 !default;
 $ui-border-color: #DDD !default;
 $ui-background-color: #EFEFEF !default;
 
-
 /* Reset */
-.gform_wrapper {
+.gform_wrapper form {
 	ol,
-	ul,
+	ul {
+		margin: 0; 
+		padding: 0; 
+		list-style: none;
+	}
+
 	li {
 		margin: 0; 
 		padding: 0; 
@@ -25,48 +29,56 @@ $ui-background-color: #EFEFEF !default;
 }
 
 /* Structure */
-.gform_wrapper {
+.gform_wrapper form {
 
 	.gform_heading {}
 
-	.gform_body {}
+	.gform_body {
+		margin-bottom: 10px;
+	}
 
 	.gform_footer {
+		clear: both;
+		text-align: center;
+
+		img { margin-left: 10px; }
+
+		.button {
+			padding: 10px;
+			min-width: 30%;
+		}
+	}
+
+	.gform_fields {
 		@include clearfix;
-		img { margin-left: 0.5rem; }
-	}
-
-	.ggroup {
-		@include clearfix;		
-
-		.gsection_title {}
-	}
-
-	.gsection_title {}
-
-	.gcolumn {
-		&:first-child {
-			@extend .gf_left_half;
-		}
-		&:last-child {
-			@extend .gf_right_half;
-		}
-
-		.gf_left_half,
-		.gf_right_half {
-			clear: none;
-			float: none;
-			padding-right: 0;
-			padding-left: 0;
-			width: auto;
-		}
 	}
 
 	.gfield {
-		@include clearfix;
+		clear: both;
+		margin-bottom: 20px;
+
+	    &.hide {
+			display: none;
+		}
 	}
 
-	.gfield_label {}
+	.gsection {
+		padding-top: 10px;
+		.gsection_title {}
+	}
+
+	.gfield_label {
+		display: inline-block;
+
+		&:empty {
+			display: block;
+			line-height: 0;
+			visibility: hidden;
+		}
+	}
+
+	.gfield_description {
+	}
 
 	input[type="text"],
 	input[type="password"],
@@ -87,16 +99,23 @@ $ui-background-color: #EFEFEF !default;
 			&:last-child {}
 		}
 
-		label {}
+		label {
+			padding-left: 8px;
+			cursor: pointer;
+		}
 
-		input:checked + label {}
+		input:checked + label {
+			font-weight: bold;
+		}
+	}
+
+	.top_label {
+		.gfield_label {
+			margin-bottom: 4px;
+		}
 	}
 
 	.left_label {
-		.gfield {
-			@include clearfix;
-		}
-
 		.gfield_label {
 			width: 30%;
 			margin-right: 3%;
@@ -110,54 +129,100 @@ $ui-background-color: #EFEFEF !default;
 		.textarea.large { width: 67%; }
 	}
 
-	/* Halves & inlines */
-	.gfield {
-		clear: both;
-	}
-		.gf_left_half,
-		.ginput_left {
-			clear: left;
-			float: left;
-			padding-right: 2%;
-			width: 50%;
-		}
+	//* Structure
+    .ggroup {
+    	margin-bottom: 10px;
+		@include clearfix;
+    	.gfield {
+    		margin-bottom: 10px;
+    	}
+    }
 
-		.gf_right_half,
-		.ginput_right {
-			clear: right;
-			float: right;
-			padding-left: 2%;
-			width: 50%;
+	.gcolumn {
+		&:first-child {
+			@extend .gf_left_half;
+		}
+		&:last-child {
+			@extend .gf_right_half;
 		}
 
 		.gf_left_half,
 		.gf_right_half {
-			.medium,
-			.large {
-				width: 100%;
-			}
+			clear: none;
+			float: none;
+			padding-right: 0;
+			padding-left: 0;
+			width: auto;
 		}
+	}
 
-		.gf_list_inline {
-			ul.gfield_radio,
-			ul.gfield_checkbox {
-				li {
-					display: inline-block;
-					margin-right: 0.75rem;
+	.gf_left_third,
+	.gf_left_half,
+	.ginput_left {
+		clear: left;
+		float: left;
+		margin-right: 2%;
+	}
 
-					&:last-child {}
+	.gf_right_half,
+	.gf_right_third,
+	.ginput_right {
+		clear: right;
+		float: right;
+		margin-left: 2%;
+	}
 
-					input,
-					label {
-						display: inline;
-					}
+	.gf_middle_third {
+		clear: none;
+		float: left;
+		margin-left: 2%;
+		margin-right: 2%;
+	}
+
+	.gf_left_half,
+	.ginput_left,
+	.gf_right_half,
+	.ginput_right {
+		width: 48%;
+	}
+
+	.gf_left_third,
+	.gf_middle_third,
+	.gf_right_third {
+		width: 30.66666%;
+	}
+
+	.gf_left_half,
+	.gf_right_half,
+	.gf_left_third,
+	.gf_middle_third,
+	.gf_right_third {
+		.medium,
+		.large {
+			width: 100%;
+		}
+	}
+
+	.gf_list_inline {
+		ul.gfield_radio,
+		ul.gfield_checkbox {
+			li {
+				display: inline-block;
+				margin-right: 12px;
+
+				&:last-child {}
+
+				input,
+				label {
+					display: inline;
 				}
 			}
 		}
+	}
 }
 
 /* Sidebar */
-.widget .gform_wrapper {
+.widget .gform_wrapper form {
 
 	.small { width: 50%; }
 	.medium { width: 100%; }
@@ -167,18 +232,20 @@ $ui-background-color: #EFEFEF !default;
 }
 
 /* Gravity form specifics */
-.gform_wrapper {
+.gform_wrapper form {
 	.validation_error {
 		border: 1px solid $ui-border-color;
 		background-color: $ui-background-color;
 		color: $ui-font-color;
 		font-style: italic;
+		padding: 10px;
 	}
 
 	.gform_confirmation_message {
 		background-color: lighten( $confirmation, 73% );
 		border: 1px solid lighten( $confirmation, 60% );
 		color: $confirmation;
+		padding: 8px 10px;
 	}
 
 	span.gfield_required {
@@ -187,12 +254,13 @@ $ui-background-color: #EFEFEF !default;
 	}
 
 	.validation_message {
-		font-weight: 500;
+
 	}
 
 	.gfield_error {
 		background-color: lighten( $error, 73% );
 		border: 1px solid lighten( $error, 68% );
+		padding: 0 5px;
 
 		.validation_message {
 			color: $error;
@@ -212,5 +280,34 @@ $ui-background-color: #EFEFEF !default;
 
 	.gform_hidden {
 		display: none;
+	}
+}
+
+//* Responsive
+@include breakpoint(tablet) {
+
+	.gform_wrapper form {
+		.medium {
+			width: 100%;
+		}
+
+		.gf_left_half,
+		.gf_right_half,
+		.gf_left_third,
+		.gf_middle_third,
+		.gf_right_third {
+			clear: both;
+			float: none;
+			width: 100%;
+			margin-left: 0;
+			margin-right: 0;
+		}
+
+		.ggroup {
+			margin-bottom: 0;
+			.gfield {
+				margin-bottom: 20px;
+			}
+		}
 	}
 }
